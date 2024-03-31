@@ -46,9 +46,9 @@ To run this chat application, follow these steps:
 
 Below are screenshots demonstrating the chat application in action:
 
-- ![Watch Recording](Working_RabbitMQ_Two_way_Chat.gif)
-- ![Screenshot 1](Screenshot_testing_2.png)
-- ![Screenshot 1](Screenshot_testing.png)
+![Watch Recording](Working_RabbitMQ_Two_way_Chat.gif)
+![Screenshot 1](Screenshot_testing_2.png)
+![Screenshot 1](Screenshot_testing.png)
 
 
 ## Message Format and Acknowledgment
