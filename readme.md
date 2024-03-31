@@ -1,6 +1,6 @@
 # RabbitMQ Chat Application
 
-![RabbitMQ Logo](rabbitmq_logo.png)
+![RabbitMQ Logo](https://www.vectorlogo.zone/logos/rabbitmq/rabbitmq-ar21.svg)
 
 This repository contains a simple chat application built with RabbitMQ that allows two users to communicate with each other in real-time.
 
