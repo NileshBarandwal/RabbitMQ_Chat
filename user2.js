@@ -1,43 +1,44 @@
 const amqp = require('amqplib');
 const readline = require('readline');
 
-async function startSubscriber() {
+async function startUser2() {
   const connection = await amqp.connect('amqp://localhost');
   const channel = await connection.createChannel();
   const exchange = 'direct_exchange';
-  const queue = 'subscriber_queue';
+  const queue = 'user2_queue';
 
   await channel.assertExchange(exchange, 'direct', { durable: false });
   await channel.assertQueue(queue, { durable: false });
-  await channel.bindQueue(queue, exchange, 'publisher_key');
+  await channel.bindQueue(queue, exchange, 'user1_key');
 
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
   });
 
-  rl.setPrompt('Enter message for publisher (or "exit" to quit): ');
-  rl.prompt();
+  async function sendMessage() {
+    rl.question('Send message to user1 (or "exit" to quit): ', async (message) => {
+      if (message.trim().toLowerCase() === 'exit') {
+        rl.close();
+        await connection.close();
+        process.exit(0);
+      } else {
+        const timestamp = new Date().toLocaleTimeString();
+        console.log(`[User2][${timestamp}]: ${message}`);
+        channel.publish(exchange, 'user2_key', Buffer.from(message));
+        await sendMessage();
+      }
+    });
+  }
 
-  rl.on('line', async (input) => {
-    if (input.trim().toLowerCase() === 'exit') {
-      rl.close();
-      await connection.close();
-      process.exit(0);
-    } else {
-      const message = input.trim();
+  async function receiveMessage() {
+    channel.consume(queue, (message) => {
       const timestamp = new Date().toLocaleTimeString();
-      console.log(`[You][${timestamp}]: ${message}`);
-      channel.publish(exchange, 'subscriber_key', Buffer.from(message));
-      rl.prompt();
-    }
-  });
+      console.log(`Msg received from User1 [${timestamp}]: ${message.content.toString()}`);
+    }, { noAck: true });
+  }
 
-  // Listen for messages from publisher
-  channel.consume(queue, (message) => {
-    const timestamp = new Date().toLocaleTimeString();
-    console.log(`[Publisher][${timestamp}]: ${message.content.toString()}`);
-  }, { noAck: true });
+  await Promise.all([sendMessage(), receiveMessage()]);
 }
 
-startSubscriber().catch(console.error);
+startUser2().catch(console.error);
