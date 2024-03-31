@@ -42,6 +42,15 @@ To run this chat application, follow these steps:
 
 6. **Begin Chatting:** Start typing your messages in each user's terminal window/tab. Messages will be exchanged between users in real-time. You will receive an acknowledgment when the other user receives your message.
 
+## Screenshots
+
+Below are screenshots demonstrating the chat application in action:
+
+- ![Screenshot 1](Screenshot_testing.png)
+- ![Screenshot 1](Screenshot_testing_2.png)
+- ![Watch Recording](Working_RabbitMQ_Two_way_Chat.gif)
+
+
 ## Message Format and Acknowledgment
 
 - **Sending Messages:** When sending a message, you will see a timestamp indicating when the message was sent and an acknowledgment if the other user received the message successfully.
@@ -61,12 +70,6 @@ Example:
 ```bash
 Msg received from User1 [2:53:45 PM]: hi from user1
 ```
-
-## Screenshots
-
-Below are screenshots demonstrating the chat application in action:
-
-- ![Screenshot 1](Screenshot_testing.png)
 
 ## How It Works
 
