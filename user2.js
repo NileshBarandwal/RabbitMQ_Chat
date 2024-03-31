@@ -24,7 +24,7 @@ async function startUser2() {
         process.exit(0);
       } else {
         const timestamp = new Date().toLocaleTimeString();
-        console.log(`[User2][${timestamp}]: ${message}`);
+        console.log(`[User1 Recived Message][${timestamp}]: ${message}`);
         channel.publish(exchange, 'user2_key', Buffer.from(message));
         await sendMessage();
       }
@@ -33,8 +33,11 @@ async function startUser2() {
 
   async function receiveMessage() {
     channel.consume(queue, (message) => {
+      readline.cursorTo(process.stdout, 0); // Move cursor to beginning of line
+      readline.clearLine(process.stdout, 1); // Clear line
       const timestamp = new Date().toLocaleTimeString();
       console.log(`Msg received from User1 [${timestamp}]: ${message.content.toString()}`);
+      rl.prompt(true); // Re-print the prompt
     }, { noAck: true });
   }
 
